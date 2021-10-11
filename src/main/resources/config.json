@@ -1,0 +1,52 @@
+{
+  "endpoints": [
+    {
+      "endpoint": {
+        "request": {
+          "url": "/hello/{name}",
+          "method": "POST",
+          "params": [
+            "name",
+            "age"
+          ],
+          "headers": {
+            "Content-Type": "APPLICATION/JSON",
+            "Connection": "keep-alive"
+          },
+          "body": "[{\"type\": \"cat\", \"age\": 23, \"color\": \"red\"}]"
+        },
+        "response": {
+          "headers": {
+            "Content-Type": "APPLICATION/JSON",
+            "Connection": "keep-alive"
+          },
+          "body": "'[{\n \"id\": 1,\n \"type\": \"cat\",\n \"age\": 23,\n \"color\": \"red\",\n \"name\": \"Barsic\"\n }]'\n",
+          "delay": "5s"
+        }
+      }
+    },
+    {
+      "endpoint": {
+        "request": {
+          "url": "/hello/{name}/cat",
+          "method": "GET",
+          "params": [
+            "age"
+          ],
+          "headers": {
+            "Content-Type": "APPLICATION/JSON",
+            "Connection": "keep-alive"
+          }
+        },
+        "response": {
+          "headers": {
+            "Content-Type": "APPLICATION/JSON",
+            "Connection": "keep-alive"
+          },
+          "body": "'[{\n \"id\": 1,\n \"type\": \"cat\",\n \"age\": 23,\n \"color\": \"red\",\n \"name\": \"Barsic\"\n }]'\n",
+          "delay": "2s"
+        }
+      }
+    }
+  ]
+}
