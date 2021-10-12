@@ -16,10 +16,19 @@ class RequestMatcherImpl(
         val method = request.method
 
         val endpoint = configHolder.config.endpoints.firstOrNull {
-            it.request.url == uri && it.request.method == MethodType.valueOf(method)
+            matchUri(it.request.uri, uri) && it.request.method == MethodType.valueOf(method)
         }
 
         return endpoint
+    }
+
+    private fun matchUri(expected: String, actual: String): Boolean {
+        val pattern = "([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?"
+        val uriPattern = expected.replace("{", pattern).replace("}", pattern)
+
+        val regex = Regex(uriPattern)
+
+        return regex.matches(actual)
     }
 
 }

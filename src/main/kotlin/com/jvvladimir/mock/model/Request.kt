@@ -6,6 +6,6 @@ import kotlinx.serialization.Serializable
 @SerialName("request")
 @Serializable
 data class Request(
-    val url: String,
+    val uri: String,
     val method: MethodType
 )

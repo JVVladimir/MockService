@@ -5,5 +5,5 @@ import javax.servlet.http.HttpServletResponse
 
 interface RequestProcessor {
 
-    fun process(request: HttpServletRequest, response: HttpServletResponse): HttpServletResponse
+    fun process(request: HttpServletRequest, response: HttpServletResponse): Any?
 }

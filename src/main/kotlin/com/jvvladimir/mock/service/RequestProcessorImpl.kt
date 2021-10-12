@@ -1,6 +1,7 @@
 package com.jvvladimir.mock.service
 
 import com.jvvladimir.mock.matcher.RequestMatcher
+import com.jvvladimir.mock.model.Response
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import javax.servlet.http.HttpServletRequest
@@ -11,28 +12,26 @@ class RequestProcessorImpl(
     val requestMatcher: RequestMatcher
 ) : RequestProcessor {
 
-    override fun process(request: HttpServletRequest, response: HttpServletResponse): HttpServletResponse {
+    override fun process(request: HttpServletRequest, response: HttpServletResponse): Any? {
         val endpoint = requestMatcher.match(request)
 
         if (endpoint == null) {
             response.sendError(HttpStatus.FORBIDDEN.value(), "There are no description request in config file")
-            return response
+            return null
         }
 
         val endpointResponse = endpoint.response
 
-        if (endpointResponse?.delay != null) {
-            Thread.sleep((endpointResponse.delay * 1000).toLong())
-        }
+        waitBusy(endpointResponse)
 
         if (endpointResponse == null) {
             response.status = HttpServletResponse.SC_OK
-            return response
+            return null
         }
 
         if (endpointResponse.errorCode != null) {
             response.sendError(endpointResponse.errorCode, endpointResponse.errorMessage)
-            return response
+            return null
         }
 
         response.status = HttpServletResponse.SC_OK
@@ -44,10 +43,15 @@ class RequestProcessorImpl(
         }
 
         if (endpointResponse.body != null) {
-            response.writer.write(endpointResponse.body)
-            response.writer.flush()
+            return endpointResponse.body
         }
 
-        return response
+        return null
+    }
+
+    private fun waitBusy(endpointResponse: Response?) {
+        if (endpointResponse?.delay != null) {
+            Thread.sleep((endpointResponse.delay * 1000).toLong())
+        }
     }
 }

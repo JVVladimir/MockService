@@ -1,33 +1,34 @@
 endpoints:
   - request:
-      url: "/hello/{name}"
+      uri: "/hello/{}"
       method: POST
     response:
       headers:
-        Content-Type: "APPLICATION/JSON"
+        Content-Type: "application/json;charset=utf-8"
         Connection: "keep-alive"
       body: >
-        '[{
+        [{
           "id": 1,
           "type": "cat",
           "age": 23,
           "color": "red",
           "name": "Barsic"
-         }]'
-      delay: 5 # in seconds
+         }]
+      delay: 2 # in seconds
   - request:
-      url: "/hello/{name}/cat"
+      uri: "/hello/{}/cat"
+      method: POST
     response:
       headers:
-        Content-Type: "APPLICATION/JSON"
+        Content-Type: "application/json;charset=utf-8"
         Connection: "keep-alive"
       body: >
-        '[{
+        [{
           "id": 1,
           "type": "cat",
           "age": 23,
           "color": "red",
           "name": "Barsic"
-         }]'
-      delay: 2s #exception
+         }]
+      delay: 2
 
