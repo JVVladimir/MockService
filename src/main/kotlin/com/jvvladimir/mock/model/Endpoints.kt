@@ -1,3 +1,8 @@
 package com.jvvladimir.mock.model
 
-data class Endpoints()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Endpoints(
+    val endpoints: List<Endpoint>
+)

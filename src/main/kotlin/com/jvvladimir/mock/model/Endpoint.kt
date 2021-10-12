@@ -1,3 +1,9 @@
 package com.jvvladimir.mock.model
 
-data class Endpoint()
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class Endpoint(
+    val request: Request,
+    val response: Response? = null
+)
