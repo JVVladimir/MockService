@@ -5,7 +5,7 @@ import java.nio.file.Path
 
 interface Parser {
 
-    fun decode(path: Path): Endpoints
+    fun decode(rawConfig: String): Endpoints
 
     fun encode(endpoints: Endpoints): String
 }

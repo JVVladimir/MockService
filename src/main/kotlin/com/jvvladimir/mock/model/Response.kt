@@ -10,5 +10,5 @@ data class Response(
     val body: String? = null,
     val errorCode: Int? = null,
     val errorMessage: String? = null,
-    val delay: Int? = null
+    val delay: String? = null
 )

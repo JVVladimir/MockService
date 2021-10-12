@@ -8,15 +8,13 @@ class UriValidator {
     fun validate(uri: String) {
         var bracketFound = false
         for (i in uri) {
-            if (i == '{') {
+            if (!bracketFound && i == '{') {
                 bracketFound = true
                 continue
             }
-            // todo: добавить регулярку на запрещенные символы
-            if (bracketFound && i in listOf('{', '/')) {
+            if ((bracketFound && i != '}') || i == '}') {
                 throw ValidationException()
-            }
-            if (i == '}') {
+            } else {
                 bracketFound = false
             }
         }

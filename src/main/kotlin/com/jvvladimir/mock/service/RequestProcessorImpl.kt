@@ -2,6 +2,7 @@ package com.jvvladimir.mock.service
 
 import com.jvvladimir.mock.matcher.RequestMatcher
 import com.jvvladimir.mock.model.Response
+import com.jvvladimir.mock.parser.MillisecondsParser
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import javax.servlet.http.HttpServletRequest
@@ -9,7 +10,8 @@ import javax.servlet.http.HttpServletResponse
 
 @Service
 class RequestProcessorImpl(
-    val requestMatcher: RequestMatcher
+    val requestMatcher: RequestMatcher,
+    val parser: MillisecondsParser
 ) : RequestProcessor {
 
     override fun process(request: HttpServletRequest, response: HttpServletResponse): Any? {
@@ -51,7 +53,7 @@ class RequestProcessorImpl(
 
     private fun waitBusy(endpointResponse: Response?) {
         if (endpointResponse?.delay != null) {
-            Thread.sleep((endpointResponse.delay * 1000).toLong())
+            Thread.sleep((parser.parseToMilliseconds(endpointResponse.delay)))
         }
     }
 }

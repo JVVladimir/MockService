@@ -1,7 +1,10 @@
 package com.jvvladimir.mock.controller
 
 import com.jvvladimir.mock.service.RequestProcessor
+import com.jvvladimir.mock.store.ConfigurationHolder
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
@@ -11,7 +14,8 @@ import javax.servlet.http.HttpServletResponse
 
 @RestController
 class GatewayController(
-    val requestProcessor: RequestProcessor
+    val requestProcessor: RequestProcessor,
+    val configHolder: ConfigurationHolder
 ) {
 
     @RequestMapping("**")
@@ -22,5 +26,10 @@ class GatewayController(
         val response = requestProcessor.process(servletRequest, servletResponse)
 
         return ResponseEntity.ok(response ?: Any()).toMono()
+    }
+
+    @PostMapping("/config")
+    fun addConfig(@RequestBody config: String) {
+        configHolder.storeConfig(config)
     }
 }

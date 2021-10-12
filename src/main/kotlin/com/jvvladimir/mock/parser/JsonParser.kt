@@ -7,7 +7,7 @@ import java.nio.file.Path
 @Component
 class JsonParser : Parser {
 
-    override fun decode(path: Path): Endpoints {
+    override fun decode(rawConfig: String): Endpoints {
         TODO("Not yet implemented")
     }
 

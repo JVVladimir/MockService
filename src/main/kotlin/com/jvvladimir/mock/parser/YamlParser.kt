@@ -14,9 +14,8 @@ class YamlParser(
     val uriValidator: UriValidator
 ) : Parser {
 
-    override fun decode(path: Path): Endpoints {
-        val yaml = Files.readString(path)
-        val config = Yaml.default.decodeFromString<Endpoints>(yaml)
+    override fun decode(rawConfig: String): Endpoints {
+        val config = Yaml.default.decodeFromString<Endpoints>(rawConfig)
         config.endpoints.forEach {
             uriValidator.validate(it.request.uri)
         }
