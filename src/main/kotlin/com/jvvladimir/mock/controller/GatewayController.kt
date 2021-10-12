@@ -15,12 +15,12 @@ class GatewayController(
 ) {
 
     @RequestMapping("**")
-    fun requestHandler(servletRequest: HttpServletRequest, servletResponse: HttpServletResponse): Mono<ResponseEntity<Any?>> {
+    fun requestHandler(
+        servletRequest: HttpServletRequest,
+        servletResponse: HttpServletResponse
+    ): Mono<ResponseEntity<Any?>> {
         val response = requestProcessor.process(servletRequest, servletResponse)
-        return if (response == null) {
-            ResponseEntity.ok(Any()).toMono()
-        } else {
-            ResponseEntity.ok(response).toMono()
-        }
+
+        return ResponseEntity.ok(response ?: Any()).toMono()
     }
 }
