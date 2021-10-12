@@ -2,18 +2,6 @@ endpoints:
   - request:
       url: "/hello/{name}"
       method: POST
-      params:
-        - name
-        - age
-      headers:
-        Content-Type: "APPLICATION/JSON"
-        Connection: "keep-alive"
-      body: >
-        '[{
-          "type": "cat",
-          "age": 23,
-          "color": "red"
-        }]'
     response:
       headers:
         Content-Type: "APPLICATION/JSON"
@@ -26,15 +14,9 @@ endpoints:
           "color": "red",
           "name": "Barsic"
          }]'
-      delay: 5s #exception
+      delay: 5 # in seconds
   - request:
       url: "/hello/{name}/cat"
-      method: GET
-      params:
-        - age
-      headers:
-        Content-Type: "APPLICATION/JSON"
-        Connection: "keep-alive"
     response:
       headers:
         Content-Type: "APPLICATION/JSON"

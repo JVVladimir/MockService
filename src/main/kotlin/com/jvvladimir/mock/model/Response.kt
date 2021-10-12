@@ -8,5 +8,7 @@ import kotlinx.serialization.Serializable
 data class Response(
     val headers: Map<String, String>? = null,
     val body: String? = null,
-    val delay: String? = null // exception
+    val errorCode: Int? = null,
+    val errorMessage: String? = null,
+    val delay: Int? = null
 )

@@ -7,8 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Request(
     val url: String,
-    val method: MethodType,
-    val params: List<String>? = null,
-    val headers: Map<String, String>? = null,
-    val body: String? = null
+    val method: MethodType
 )
