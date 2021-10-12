@@ -12,8 +12,8 @@ class UriValidator {
                 bracketFound = true
                 continue
             }
-            if ((bracketFound && i != '}') || i == '}') {
-                throw ValidationException()
+            if ((bracketFound && i != '}') || (!bracketFound && i == '}')) {
+                throw ValidationException("Brackets in URI validation failed")
             } else {
                 bracketFound = false
             }
