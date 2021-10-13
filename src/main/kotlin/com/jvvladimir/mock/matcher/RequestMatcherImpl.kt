@@ -1,10 +1,9 @@
 package com.jvvladimir.mock.matcher
 
 import com.jvvladimir.mock.model.Endpoint
-import com.jvvladimir.mock.model.MethodType
 import com.jvvladimir.mock.store.ConfigurationHolder
+import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.stereotype.Component
-import javax.servlet.http.HttpServletRequest
 
 @Component
 class RequestMatcherImpl(
@@ -15,12 +14,12 @@ class RequestMatcherImpl(
         const val PATTERN = "([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?"
     }
 
-    override fun match(request: HttpServletRequest): Endpoint? {
-        val uri = request.requestURI
+    override fun match(request: ServerHttpRequest): Endpoint? {
+        val uri = request.uri.path
         val method = request.method
 
         val endpoint = configHolder.getConfig().endpoints.firstOrNull {
-            matchUri(it.request.uri, uri) && it.request.method == MethodType.valueOf(method)
+            matchUri(it.request.uri, uri) && it.request.method == method
         }
 
         return endpoint

@@ -4,9 +4,11 @@ import com.jvvladimir.mock.matcher.RequestMatcher
 import com.jvvladimir.mock.model.Response
 import com.jvvladimir.mock.parser.MillisecondsParser
 import org.springframework.http.HttpStatus
+import org.springframework.http.server.reactive.ServerHttpRequest
+import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.stereotype.Service
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import org.springframework.web.server.ResponseStatusException
+import reactor.core.publisher.Mono
 
 @Service
 class RequestProcessorImpl(
@@ -14,41 +16,32 @@ class RequestProcessorImpl(
     val parser: MillisecondsParser
 ) : RequestProcessor {
 
-    override fun process(request: HttpServletRequest, response: HttpServletResponse): Any? {
+    override fun process(request: ServerHttpRequest, response: ServerHttpResponse): Mono<Any> {
         val endpoint = requestMatcher.match(request)
-
-        if (endpoint == null) {
-            response.sendError(HttpStatus.FORBIDDEN.value(), "There are no description request in config file")
-            return null
-        }
+            ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "There are no description request in config file")
 
         val endpointResponse = endpoint.response
 
         waitBusy(endpointResponse)
 
         if (endpointResponse == null) {
-            response.status = HttpServletResponse.SC_OK
-            return null
+            return Mono.empty()
         }
 
         if (endpointResponse.errorCode != null) {
-            response.sendError(endpointResponse.errorCode, endpointResponse.errorMessage)
-            return null
+            throw ResponseStatusException(HttpStatus.valueOf(endpointResponse.errorCode), endpointResponse.errorMessage)
         }
 
-        response.status = HttpServletResponse.SC_OK
+        if (endpointResponse.successCode != null) {
+            response.statusCode = HttpStatus.valueOf(endpointResponse.successCode)
+        }
 
         if (endpointResponse.headers != null) {
             endpointResponse.headers.entries.forEach {
-                response.setHeader(it.key, it.value)
+                response.headers[it.key] = it.value
             }
         }
-
-        if (endpointResponse.body != null) {
-            return endpointResponse.body
-        }
-
-        return null
+        return Mono.justOrEmpty(endpointResponse.body)
     }
 
     private fun waitBusy(endpointResponse: Response?) {

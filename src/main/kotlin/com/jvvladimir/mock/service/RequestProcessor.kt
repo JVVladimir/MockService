@@ -1,9 +1,10 @@
 package com.jvvladimir.mock.service
 
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import org.springframework.http.server.reactive.ServerHttpRequest
+import org.springframework.http.server.reactive.ServerHttpResponse
+import reactor.core.publisher.Mono
 
 interface RequestProcessor {
 
-    fun process(request: HttpServletRequest, response: HttpServletResponse): Any?
+    fun process(request: ServerHttpRequest, response: ServerHttpResponse): Mono<Any>
 }

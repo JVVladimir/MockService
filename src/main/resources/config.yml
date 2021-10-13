@@ -3,6 +3,7 @@ endpoints:
       uri: "/hello/{}"
       method: POST
     response:
+      successCode: 201
       headers:
         Content-Type: "application/json;charset=utf-8"
         Connection: "keep-alive"

@@ -1,9 +1,9 @@
 package com.jvvladimir.mock.matcher
 
 import com.jvvladimir.mock.model.Endpoint
-import javax.servlet.http.HttpServletRequest
+import org.springframework.http.server.reactive.ServerHttpRequest
 
 interface RequestMatcher {
 
-    fun match(request: HttpServletRequest): Endpoint?
+    fun match(request: ServerHttpRequest): Endpoint?
 }

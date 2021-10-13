@@ -2,15 +2,13 @@ package com.jvvladimir.mock.controller
 
 import com.jvvladimir.mock.service.RequestProcessor
 import com.jvvladimir.mock.store.ConfigurationHolder
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+
 
 @RestController
 class GatewayController(
@@ -20,12 +18,9 @@ class GatewayController(
 
     @RequestMapping("**")
     fun requestHandler(
-        servletRequest: HttpServletRequest,
-        servletResponse: HttpServletResponse
-    ): Mono<ResponseEntity<Any?>> {
-        val response = requestProcessor.process(servletRequest, servletResponse)
-
-        return ResponseEntity.ok(response ?: Any()).toMono()
+        exchange: ServerWebExchange
+    ): Mono<Any> {
+        return requestProcessor.process(exchange.request, exchange.response)
     }
 
     @PostMapping("/config")
