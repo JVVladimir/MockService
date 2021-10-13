@@ -14,7 +14,7 @@ endpoints:
   - request:
       uri: "/hello/{}"
       method: POST
-      response:
+    response:
       successCode: 201
       headers:
         Content-Type: "application/json;charset=utf-8"
@@ -32,10 +32,10 @@ endpoints:
   - request:
       uri: "/hello/{}/cat"
       method: POST
-      response:
+    response:
       headers:
-      Content-Type: "application/json;charset=utf-8"
-      Connection: "keep-alive"
+        Content-Type: "application/json;charset=utf-8"
+        Connection: "keep-alive"
       body: >
         [{
           "id": 1,
@@ -46,4 +46,13 @@ endpoints:
         }]
       delay: 2s
 ```
-Service also supports similar config file in json.
+Service also supports similar config file in json format.
+
+With ***{}*** you can specify path variables in URI. Moreover, you can specify return body, headers or status code.
+
+Body presents in json format or simple string.
+If body will not specify, so server return 200 OK answer.
+
+Service supplies to return custom success codes (by default is 200) or error code with description message.
+
+You have opportunity to set delay in seconds or milliseconds before response will send back.
