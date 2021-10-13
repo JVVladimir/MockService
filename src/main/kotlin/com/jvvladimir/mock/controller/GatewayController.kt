@@ -2,10 +2,7 @@ package com.jvvladimir.mock.controller
 
 import com.jvvladimir.mock.service.RequestProcessor
 import com.jvvladimir.mock.store.ConfigurationHolder
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 

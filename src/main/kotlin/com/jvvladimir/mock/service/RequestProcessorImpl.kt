@@ -1,5 +1,6 @@
 package com.jvvladimir.mock.service
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.jvvladimir.mock.matcher.RequestMatcher
 import com.jvvladimir.mock.model.Response
 import com.jvvladimir.mock.parser.MillisecondsParser
@@ -13,7 +14,8 @@ import reactor.core.publisher.Mono
 @Service
 class RequestProcessorImpl(
     val requestMatcher: RequestMatcher,
-    val parser: MillisecondsParser
+    val parser: MillisecondsParser,
+    val objectMapper: ObjectMapper
 ) : RequestProcessor {
 
     override fun process(request: ServerHttpRequest, response: ServerHttpResponse): Mono<Any> {
@@ -41,8 +43,20 @@ class RequestProcessorImpl(
                 response.headers[it.key] = it.value
             }
         }
-        return Mono.justOrEmpty(endpointResponse.body)
+
+        return if (endpointResponse.body == null) {
+            Mono.empty()
+        } else {
+            Mono.just(tryConvertToJson(endpointResponse.body))
+        }
     }
+
+    private fun tryConvertToJson(body: String): Any =
+        try {
+            objectMapper.readTree(body)
+        } catch (ex: Exception) {
+            body
+        }
 
     private fun waitBusy(endpointResponse: Response?) {
         if (endpointResponse?.delay != null) {

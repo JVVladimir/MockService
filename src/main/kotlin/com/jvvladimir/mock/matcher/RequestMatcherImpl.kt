@@ -11,7 +11,7 @@ class RequestMatcherImpl(
 ) : RequestMatcher {
 
     companion object {
-        const val PATTERN = "([\\w.,@?^=%&:/~+#-]*[\\w@?^=%&/~+#-])?"
+        const val PATTERN = "[a-zA-Z0-9_\\-.~%]+"
     }
 
     override fun match(request: ServerHttpRequest): Endpoint? {
