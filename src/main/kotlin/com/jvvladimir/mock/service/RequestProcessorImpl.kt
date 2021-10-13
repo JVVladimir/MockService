@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.jvvladimir.mock.matcher.RequestMatcher
 import com.jvvladimir.mock.model.Response
 import com.jvvladimir.mock.parser.MillisecondsParser
+import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.http.server.reactive.ServerHttpResponse
@@ -18,7 +19,12 @@ class RequestProcessorImpl(
     val objectMapper: ObjectMapper
 ) : RequestProcessor {
 
+    companion object {
+        private val log = KotlinLogging.logger {}
+    }
+
     override fun process(request: ServerHttpRequest, response: ServerHttpResponse): Mono<Any> {
+        log.debug { "Process request: $request" }
         val endpoint = requestMatcher.match(request)
             ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "There are no description request in config file")
 
@@ -59,6 +65,7 @@ class RequestProcessorImpl(
         }
 
     private fun waitBusy(endpointResponse: Response?) {
+        log.debug { "Busy waiting for endpointResponse: $endpointResponse" }
         if (endpointResponse?.delay != null) {
             Thread.sleep((parser.parseToMilliseconds(endpointResponse.delay)))
         }

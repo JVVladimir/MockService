@@ -26,6 +26,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     implementation("com.charleskorn.kaml:kaml:0.36.0")
+    implementation("io.github.microutils:kotlin-logging:2.0.11")
 
     testImplementation("io.projectreactor:reactor-test")
 }
