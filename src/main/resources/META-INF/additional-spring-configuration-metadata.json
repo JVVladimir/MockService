@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "server.defaultConfigPath",
+      "type": "java.lang.String",
+      "description": "Path for sending config file."
+  }
+] }

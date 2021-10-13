@@ -20,7 +20,7 @@ class GatewayController(
         return requestProcessor.process(exchange.request, exchange.response)
     }
 
-    @PostMapping("/config")
+    @PostMapping("\${server.defaultConfigPath}")
     fun addConfig(@RequestBody config: String) {
         configHolder.storeConfig(config)
     }
