@@ -16,12 +16,8 @@ class GatewayController(
     @RequestMapping("**")
     fun requestHandler(
         exchange: ServerWebExchange
-    ): Mono<Any> {
-        return requestProcessor.process(exchange.request, exchange.response)
-    }
+    ): Mono<Any> = requestProcessor.process(exchange.request, exchange.response)
 
     @PostMapping("\${server.defaultConfigPath}")
-    fun addConfig(@RequestBody config: String) {
-        configHolder.storeConfig(config)
-    }
+    fun addConfig(@RequestBody config: String) = configHolder.storeConfig(config)
 }

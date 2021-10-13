@@ -28,7 +28,7 @@ endpoints:
           "color": "red",
           "name": "Barsic"
         }]
-      delay: 2s #(s, ms)
+      delay: 2s
   - request:
       uri: "/hello/{}/cat"
       method: POST

@@ -5,14 +5,6 @@
         "request": {
           "url": "/hello/{name}",
           "method": "POST",
-          "params": [
-            "name",
-            "age"
-          ],
-          "headers": {
-            "Content-Type": "APPLICATION/JSON",
-            "Connection": "keep-alive"
-          },
           "body": "[{\"type\": \"cat\", \"age\": 23, \"color\": \"red\"}]"
         },
         "response": {
@@ -29,14 +21,7 @@
       "endpoint": {
         "request": {
           "url": "/hello/{name}/cat",
-          "method": "GET",
-          "params": [
-            "age"
-          ],
-          "headers": {
-            "Content-Type": "APPLICATION/JSON",
-            "Connection": "keep-alive"
-          }
+          "method": "GET"
         },
         "response": {
           "headers": {
