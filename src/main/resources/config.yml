@@ -1,35 +1,336 @@
 endpoints:
   - request:
-      uri: "/hello/{}"
-      method: POST
+      uri: "/api/gateway/mobile/rest/v1/cabinet/profile"
+      method: GET
     response:
-      successCode: 201
       headers:
         Content-Type: "application/json;charset=utf-8"
-        Connection: "keep-alive"
       body: >
-        [{
-          "id": 1,
-          "type": "cat",
-          "age": 23,
-          "color": "red",
-          "name": "Barsic"
-         }]
-      delay: 2s # (s, ms)
+        {
+         "userId": 12345
+        }
+      delay: 10ms
   - request:
-      uri: "/hello/{}/cat"
+      uri: "/api/user/tokenAccessEnabled"
+      method: GET
+    response:
+      headers:
+        Content-Type: "charset=utf-8"
+      body: true
+      delay: 10ms
+  - request:
+      uri: "/api/auth/login"
       method: POST
     response:
       headers:
         Content-Type: "application/json;charset=utf-8"
-        Connection: "keep-alive"
       body: >
-        [{
-          "id": 1,
-          "type": "cat",
-          "age": 23,
-          "color": "red",
-          "name": "Barsic"
-         }]
-      delay: 2s
-
+        {
+          "token": "token12345",
+          "refreshToken": "refreshToken12345"
+        }
+      delay: 10ms
+  # devices
+  - request:
+      uri: "/api/v1/{}/telemetry"
+      method: POST
+    response:
+      delay: 5ms
+  - request:
+      uri: "/api/deviceProfileInfos"
+      method: GET
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "data": [
+                {
+                    "id": {
+                        "entityType": "DEVICE_PROFILE",
+                        "id": "950dfc40-f443-11eb-8ad0-a7541e323ec3"
+                    },
+                    "name": "Mobile application",
+                    "type": "DEFAULT",
+                    "transportType": "DEFAULT"
+                }
+            ],
+            "totalPages": 1,
+            "totalElements": 1,
+            "hasNext": false
+        }
+      delay: 5ms
+  - request:
+      uri: "/api/device/{}/credentials"
+      method: GET
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "id": {
+                "id": "c130d0b0-15f7-11ec-b89d-791551738b36"
+            },
+            "createdTime": 1631691438395,
+            "deviceId": {
+                "entityType": "DEVICE",
+                "id": "c12fbf40-15f7-11ec-b89d-791551738b36"
+            },
+            "credentialsType": "ACCESS_TOKEN",
+            "credentialsId": "iWkDC4sYXe5wLpH5oI6p",
+            "credentialsValue": null
+        }
+      delay: 5ms
+  - request:
+      uri: "/api/device"
+      method: POST
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "id": {
+                "entityType": "DEVICE",
+                "id": "c12fbf40-15f7-11ec-b89d-791551738b36"
+            },
+            "createdTime": 1631691438388,
+            "additionalInfo": {
+                "gateway": false,
+                "overwriteActivityTime": false,
+                "description": ""
+            },
+            "tenantId": {
+                "entityType": "TENANT",
+                "id": "9f705630-e53c-11eb-9095-419c8d5cb3fa"
+            },
+            "customerId": {
+                "entityType": "CUSTOMER",
+                "id": "13814000-1dd2-11b2-8080-808080808080"
+            },
+            "name": "Device-12345",
+            "type": "Mobile application",
+            "label": "",
+            "deviceProfileId": {
+                "entityType": "DEVICE_PROFILE",
+                "id": "950dfc40-f443-11eb-8ad0-a7541e323ec3"
+            },
+            "deviceData": {
+                "configuration": {
+                    "type": "DEFAULT"
+                },
+                "transportConfiguration": {
+                    "type": "DEFAULT"
+                }
+            }
+        }
+      delay: 5ms
+  - request:
+      uri: "/api/tenant/devices"
+      method: GET
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+                    "id": {
+                        "entityType": "DEVICE",
+                        "id": "c12fbf40-15f7-11ec-b89d-791551738b36"
+                    },
+                    "createdTime": 1631691438388,
+                    "additionalInfo": {
+                        "gateway": false,
+                        "overwriteActivityTime": false,
+                        "description": ""
+                    },
+                    "tenantId": {
+                        "entityType": "TENANT",
+                        "id": "9f705630-e53c-11eb-9095-419c8d5cb3fa"
+                    },
+                    "customerId": {
+                        "entityType": "CUSTOMER",
+                        "id": "13814000-1dd2-11b2-8080-808080808080"
+                    },
+                    "name": "Device-12345",
+                    "type": "Mobile application",
+                    "label": "",
+                    "deviceProfileId": {
+                        "entityType": "DEVICE_PROFILE",
+                        "id": "950dfc40-f443-11eb-8ad0-a7541e323ec3"
+                    },
+                    "deviceData": {
+                        "configuration": {
+                            "type": "DEFAULT"
+                        },
+                        "transportConfiguration": {
+                            "type": "DEFAULT"
+                        }
+                    }
+                }
+      delay: 5ms
+  - request:
+      uri: "/api/customer"
+      method: POST
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "id": {
+                "entityType": "CUSTOMER",
+                "id": "f57ec2f0-15fc-11ec-b89d-791551738b36"
+            },
+            "createdTime": 1631693673631,
+            "additionalInfo": {
+                "description": "",
+                "homeDashboardId": null,
+                "homeDashboardHideToolbar": true
+            },
+            "country": null,
+            "state": null,
+            "city": null,
+            "address": null,
+            "address2": null,
+            "zip": null,
+            "phone": null,
+            "email": null,
+            "title": "User-12345",
+            "tenantId": {
+                "entityType": "TENANT",
+                "id": "9f705630-e53c-11eb-9095-419c8d5cb3fa"
+            },
+            "name": "User-12345"
+        }
+      delay: 5ms
+  - request:
+      uri: "/api/customer/{}/deviceInfos"
+      method: GET
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "data": [
+                {
+                    "id": {
+                        "entityType": "DEVICE",
+                        "id": "003be1d0-f444-11eb-8ad0-a7541e323ec3"
+                    },
+                    "createdTime": 1627985846381,
+                    "additionalInfo": {
+                        "gateway": false,
+                        "overwriteActivityTime": false,
+                        "description": "Устройство передачи данных от IOT до TB"
+                    },
+                    "tenantId": {
+                        "entityType": "TENANT",
+                        "id": "9f705630-e53c-11eb-9095-419c8d5cb3fa"
+                    },
+                    "customerId": {
+                        "entityType": "CUSTOMER",
+                        "id": "a03d9140-e53c-11eb-9095-419c8d5cb3fa"
+                    },
+                    "name": "Device-12345",
+                    "type": "Mobile application",
+                    "label": "Virtual mobile application",
+                    "deviceProfileId": {
+                        "entityType": "DEVICE_PROFILE",
+                        "id": "950dfc40-f443-11eb-8ad0-a7541e323ec3"
+                    },
+                    "deviceData": {
+                        "configuration": {
+                            "type": "DEFAULT"
+                        },
+                        "transportConfiguration": {
+                            "type": "DEFAULT"
+                        }
+                    },
+                    "customerTitle": "User-12345",
+                    "customerIsPublic": false,
+                    "deviceProfileName": "Mobile application"
+                }
+            ],
+            "totalPages": 1,
+            "totalElements": 6,
+            "hasNext": false
+        }
+      delay: 5ms
+  - request:
+      uri: "/api/customers"
+      method: GET
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "data": [
+                {
+                    "id": {
+                        "entityType": "CUSTOMER",
+                        "id": "a04902f0-e53c-11eb-9095-419c8d5cb3fa"
+                    },
+                    "createdTime": 1626333411487,
+                    "additionalInfo": null,
+                    "country": null,
+                    "state": null,
+                    "city": null,
+                    "address": null,
+                    "address2": null,
+                    "zip": null,
+                    "phone": null,
+                    "email": null,
+                    "title": "User-12345",
+                    "tenantId": {
+                        "entityType": "TENANT",
+                        "id": "9f705630-e53c-11eb-9095-419c8d5cb3fa"
+                    },
+                    "name": "User-12345"
+                }
+            ],
+            "totalPages": 1,
+            "totalElements": 3,
+            "hasNext": false
+        }
+      delay: 5ms
+  - request:
+      uri: "/api/customer/{}/device/{}"
+      method: POST
+    response:
+      headers:
+        Content-Type: "application/json;charset=utf-8"
+      body: >
+        {
+            "id": {
+                "entityType": "DEVICE",
+                "id": "05e1a010-15fb-11ec-b89d-791551738b36"
+            },
+            "createdTime": 1631692842129,
+            "additionalInfo": {
+                "gateway": false,
+                "overwriteActivityTime": false,
+                "description": ""
+            },
+            "tenantId": {
+                "entityType": "TENANT",
+                "id": "9f705630-e53c-11eb-9095-419c8d5cb3fa"
+            },
+            "customerId": {
+                "entityType": "CUSTOMER",
+                "id": "a03d9140-e53c-11eb-9095-419c8d5cb3fa"
+            },
+            "name": "Device-12345",
+            "type": "Mobile application",
+            "label": "",
+            "deviceProfileId": {
+                "entityType": "DEVICE_PROFILE",
+                "id": "950dfc40-f443-11eb-8ad0-a7541e323ec3"
+            },
+            "deviceData": {
+                "configuration": {
+                    "type": "DEFAULT"
+                },
+                "transportConfiguration": {
+                    "type": "DEFAULT"
+                }
+            }
+        }
+      delay: 5ms

@@ -12,10 +12,10 @@ class MillisecondsParser {
     }
 
     fun parseToMilliseconds(s: String): Long {
-        return if (s.contains(SEC)) {
-            s.substringBefore(SEC).toLong() * 1000
-        } else if (s.contains(MSEC)) {
+        return if (s.contains(MSEC)) {
             s.substringBefore(MSEC).toLong()
+        } else if (s.contains(SEC)) {
+            s.substringBefore(SEC).toLong() * 1000
         } else {
             throw ValidationException("Could not validate delay")
         }
