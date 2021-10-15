@@ -11,6 +11,7 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 import reactor.core.publisher.Mono
+import java.time.Duration
 
 @Service
 class RequestProcessorImpl(
@@ -30,10 +31,10 @@ class RequestProcessorImpl(
 
         val endpointResponse = endpoint.response
 
-        waitBusy(endpointResponse)
+        val mono = waitBusy(endpointResponse)
 
         if (endpointResponse == null) {
-            return Mono.empty()
+            return mono.then(Mono.empty())
         }
 
         if (endpointResponse.errorCode != null) {
@@ -51,9 +52,9 @@ class RequestProcessorImpl(
         }
 
         return if (endpointResponse.body == null) {
-            Mono.empty()
+            mono.then(Mono.empty())
         } else {
-            Mono.just(tryConvertToJson(endpointResponse.body))
+            mono.then(Mono.just(tryConvertToJson(endpointResponse.body)))
         }
     }
 
@@ -64,10 +65,13 @@ class RequestProcessorImpl(
             body
         }
 
-    private fun waitBusy(endpointResponse: Response?) {
+    private fun waitBusy(endpointResponse: Response?): Mono<Long> {
         log.debug { "Busy waiting for endpointResponse: $endpointResponse" }
-        if (endpointResponse?.delay != null) {
-            Thread.sleep((parser.parseToMilliseconds(endpointResponse.delay)))
+        return if (endpointResponse?.delay != null) {
+            Mono.delay(Duration.ofMillis(parser.parseToMilliseconds(endpointResponse.delay)))
+            // Thread.sleep((parser.parseToMilliseconds(endpointResponse.delay)))
+        } else {
+            Mono.empty()
         }
     }
 }
