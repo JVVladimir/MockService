@@ -27,7 +27,9 @@ class RequestProcessorImpl(
     override fun process(request: ServerHttpRequest, response: ServerHttpResponse): Mono<Any> {
         log.debug { "Process request: $request" }
         val endpoint = requestMatcher.match(request)
-            ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "There are no description request in config file")
+            ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "There are no description request in config file").also {
+                log.error { it }
+            }
 
         val endpointResponse = endpoint.response
 
@@ -69,7 +71,6 @@ class RequestProcessorImpl(
         log.debug { "Busy waiting for endpointResponse: $endpointResponse" }
         return if (endpointResponse?.delay != null) {
             Mono.delay(Duration.ofMillis(parser.parseToMilliseconds(endpointResponse.delay)))
-            // Thread.sleep((parser.parseToMilliseconds(endpointResponse.delay)))
         } else {
             Mono.empty()
         }
