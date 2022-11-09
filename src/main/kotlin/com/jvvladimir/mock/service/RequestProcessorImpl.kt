@@ -15,9 +15,9 @@ import java.time.Duration
 
 @Service
 class RequestProcessorImpl(
-    val requestMatcher: RequestMatcher,
-    val parser: MillisecondsParser,
-    val objectMapper: ObjectMapper
+    private val requestMatcher: RequestMatcher,
+    private val parser: MillisecondsParser,
+    private val objectMapper: ObjectMapper
 ) : RequestProcessor {
 
     companion object {

@@ -9,8 +9,8 @@ import reactor.core.publisher.Mono
 
 @RestController
 class GatewayController(
-    val requestProcessor: RequestProcessor,
-    val configHolder: ConfigurationHolder
+    private val requestProcessor: RequestProcessor,
+    private val configHolder: ConfigurationHolder
 ) {
 
     @RequestMapping("**")

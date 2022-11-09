@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class RequestMatcherImpl(
-    val configHolder: ConfigurationHolder
+    private val configHolder: ConfigurationHolder
 ) : RequestMatcher {
 
     companion object {
