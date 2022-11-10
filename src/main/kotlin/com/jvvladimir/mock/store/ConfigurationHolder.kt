@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class ConfigurationHolder(
-    val parser: YamlParser
+    private val parser: YamlParser
 ) {
 
     companion object {

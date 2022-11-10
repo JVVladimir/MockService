@@ -8,17 +8,16 @@ import org.springframework.stereotype.Component
 
 @Component
 class JsonParser(
-    val uriValidator: UriValidator,
-    val objectMapper: ObjectMapper
+    private val uriValidator: UriValidator,
+    private val jsonMapper: ObjectMapper
 ) : Parser {
 
     override fun decode(rawConfig: String): Endpoints {
-        val config = objectMapper.readValue<Endpoints>(rawConfig)
+        val config = jsonMapper.readValue<Endpoints>(rawConfig)
         config.endpoints.forEach {
             uriValidator.validate(it.request.uri)
         }
         return config
     }
 
-    override fun encode(endpoints: Endpoints): String = objectMapper.writeValueAsString(endpoints)
 }

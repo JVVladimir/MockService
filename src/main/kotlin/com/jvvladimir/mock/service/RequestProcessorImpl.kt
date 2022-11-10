@@ -17,7 +17,7 @@ import java.time.Duration
 class RequestProcessorImpl(
     private val requestMatcher: RequestMatcher,
     private val parser: MillisecondsParser,
-    private val objectMapper: ObjectMapper
+    private val jsonMapper: ObjectMapper
 ) : RequestProcessor {
 
     companion object {
@@ -27,7 +27,10 @@ class RequestProcessorImpl(
     override fun process(request: ServerHttpRequest, response: ServerHttpResponse): Mono<Any> {
         log.debug { "Process request: $request" }
         val endpoint = requestMatcher.match(request)
-            ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "There are no description request in config file").also {
+            ?: throw ResponseStatusException(
+                HttpStatus.FORBIDDEN,
+                "There are no description request in config file"
+            ).also {
                 log.error { it }
             }
 
@@ -62,7 +65,7 @@ class RequestProcessorImpl(
 
     private fun tryConvertToJson(body: String): Any =
         try {
-            objectMapper.readTree(body)
+            jsonMapper.readTree(body)
         } catch (ex: Exception) {
             body
         }
